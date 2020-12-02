@@ -12,6 +12,7 @@ from .tmol import tmol_escf, tmol_tddft
 from .gamess import gamess_cis, gamess_tddft
 from .molpro import molpro_mcscf
 from .gaussian import gaussian_tddft
+from .fermions import fermions_tddft
 
 def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
                  select=None,nforbs=0,bortho=False,
@@ -20,15 +21,16 @@ def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
   
   Supported input files (``itype``):
   
-  itype           QC-Program  Level of Theory
-  ==============  ==========  =====================
-  'psi4_detci'    PSI4        All CI calculations
-  'gamess_cis'    GAMESS-US   CIS
-  'gamess_tddft'  GAMESS-US   TD-DFT
-  'gauss16_tddft' Gaussian16  TD-DFT
-  'tmol_tddft'    TURBOMOLE   TD-DFT
-  'molpro_mcscf'  MOLPRO      MCSCF
-  ==============  ==========  =====================
+  itype             QC-Program    Level of Theory
+  ================  ============  =====================
+  'psi4_detci'      PSI4          All CI calculations
+  'gamess_cis'      GAMESS-US     CIS
+  'gamess_tddft'    GAMESS-US     TD-DFT
+  'gauss16_tddft'   Gaussian16    TD-DFT
+  'tmol_tddft'      TURBOMOLE     TD-DFT
+  'molpro_mcscf'    MOLPRO        MCSCF
+  'fermions_tddft'   FermiONs++   TD-DFT
+  ================  ============  =====================
   
   **Parameters:**
   
@@ -73,6 +75,7 @@ def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
             'gamess_cis': gamess_cis,
             'gamess_tddft': gamess_tddft,
             'gaussian_tddft': gaussian_tddft,
+            'fermions_tddft': fermions_tddft,
             'tmol_tddft': tmol_tddft,
             'molpro_mcscf': molpro_mcscf}
   
@@ -90,7 +93,7 @@ def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
   
   # Get a copy of qc
   qc = qc.copy()
-  if itype in ['tmol_tddft','gamess_cis','gamess_tddft','gaussian_tddft']: # CIS-like
+  if itype in ['tmol_tddft','gamess_cis','gamess_tddft','gaussian_tddft','fermions_tddft']: # CIS-like
     moocc = qc.mo_spec.get_occ(return_int=True)
   elif itype in ['psi4_detci','molpro_mcscf']: # detCI-like
     # Reorder qc.mo_spec
