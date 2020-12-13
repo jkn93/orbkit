@@ -13,6 +13,9 @@ from .gamess import gamess_cis, gamess_tddft
 from .molpro import molpro_mcscf
 from .gaussian import gaussian_tddft
 from .fermions import fermions_tddft
+from .fermions import fermions_tda_tddft
+from .fermions import fermions_srpa
+from .fermions import fermions_stda
 
 def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
                  select=None,nforbs=0,bortho=False,
@@ -75,9 +78,13 @@ def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
             'gamess_cis': gamess_cis,
             'gamess_tddft': gamess_tddft,
             'gaussian_tddft': gaussian_tddft,
-            'fermions_tddft': fermions_tddft,
             'tmol_tddft': tmol_tddft,
-            'molpro_mcscf': molpro_mcscf}
+            'molpro_mcscf': molpro_mcscf,
+            'fermions_tddft': fermions_tddft,
+            'fermions_tda_tddft': fermions_tda_tddft,
+            'fermions_srpa': fermions_srpa,
+            'fermions_stda': fermions_stda
+            }
   
   display('Loading %s file...' % itype)
   if itype not in reader.keys():
@@ -93,7 +100,7 @@ def main_ci_read(qc,fname,itype='psi4_detci',threshold=0.0,
   
   # Get a copy of qc
   qc = qc.copy()
-  if itype in ['tmol_tddft','gamess_cis','gamess_tddft','gaussian_tddft','fermions_tddft']: # CIS-like
+  if itype in ['tmol_tddft','gamess_cis','gamess_tddft','gaussian_tddft','fermions_tddft','fermions_tda_tddft','fermions_srpa','fermions_stda']: # CIS-like
     moocc = qc.mo_spec.get_occ(return_int=True)
   elif itype in ['psi4_detci','molpro_mcscf']: # detCI-like
     # Reorder qc.mo_spec

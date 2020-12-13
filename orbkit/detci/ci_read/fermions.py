@@ -6,7 +6,10 @@ from orbkit.read.tools import descriptor_from_file
 from orbkit.units import ev_to_ha
 from .tools import multiplicity
 
-def fermions_tddft(fname,select_state=None,threshold=0.0,**kwargs):
+#################################################################################
+#  TDSCF
+#################################################################################
+def fermions_tdscf(fname,td_typ='rpa',st_typ='singlet',select_state=None,threshold=0.0,**kwargs):
   '''Reads FermiONs++ TDDFT output. 
   
   **Parameters:**
@@ -29,9 +32,6 @@ def fermions_tddft(fname,select_state=None,threshold=0.0,**kwargs):
   #
   # future user-input...
   #
-  td_typ = 'rpa' 
-  st_typ = 'singlet' 
-  
   sst = 'Singlets'
   fspin = 1.0
   if st_typ == 'triplet':
@@ -160,3 +160,95 @@ def fermions_tddft(fname,select_state=None,threshold=0.0,**kwargs):
     ci[i].occ = numpy.array([s for s in ci[i].occ],dtype=numpy.intc)-1
   
   return ci
+
+def fermions_tddft(fname,select_state=None,threshold=0.0,**kwargs):
+  '''Reads FermiONs++ TDDFT output. 
+  
+  **Parameters:**
+  
+    fname: str, file descriptor
+      Specifies the filename for the input file.
+      fname can also be used with a file descriptor instad of a filename.
+    select_state : None or list of int, optional
+      If not None, specifies the states to be read (0 corresponds to the ground 
+      state), else read all electronic states.
+    threshold : float, optional
+      Specifies a read threshold for the CI coefficients.
+  
+  **Returns:**
+  
+    ci : list of CIinfo class instances
+      See :ref:`Central Variables` for details.
+  '''
+  display('\nReading data of TDDFT calculation from FermiONs++...')
+  return fermions_tdscf(fname,td_typ='rpa',st_typ='singlet',select_state=select_state,threshold=threshold,**kwargs)
+
+def fermions_tda_tddft(fname,select_state=None,threshold=0.0,**kwargs):
+  '''Reads FermiONs++ TDDFT output. 
+  
+  **Parameters:**
+  
+    fname: str, file descriptor
+      Specifies the filename for the input file.
+      fname can also be used with a file descriptor instad of a filename.
+    select_state : None or list of int, optional
+      If not None, specifies the states to be read (0 corresponds to the ground 
+      state), else read all electronic states.
+    threshold : float, optional
+      Specifies a read threshold for the CI coefficients.
+  
+  **Returns:**
+  
+    ci : list of CIinfo class instances
+      See :ref:`Central Variables` for details.
+  '''
+  display('\nReading data of TDA-TDDFT calculation from FermiONs++...')
+  return fermions_tdscf(fname,td_typ='tda',st_typ='singlet',select_state=select_state,threshold=threshold,**kwargs)
+
+def fermions_srpa(fname,select_state=None,threshold=0.0,**kwargs):
+  '''Reads FermiONs++ TDDFT output. 
+  
+  **Parameters:**
+  
+    fname: str, file descriptor
+      Specifies the filename for the input file.
+      fname can also be used with a file descriptor instad of a filename.
+    select_state : None or list of int, optional
+      If not None, specifies the states to be read (0 corresponds to the ground 
+      state), else read all electronic states.
+    threshold : float, optional
+      Specifies a read threshold for the CI coefficients.
+  
+  **Returns:**
+  
+    ci : list of CIinfo class instances
+      See :ref:`Central Variables` for details.
+  '''
+  display('\nReading data of simplified RPA calculation from FermiONs++...')
+  return fermions_tdscf(fname,td_typ='srpa',st_typ='singlet',select_state=select_state,threshold=threshold,**kwargs)
+
+def fermions_stda(fname,select_state=None,threshold=0.0,**kwargs):
+  '''Reads FermiONs++ TDDFT output. 
+  
+  **Parameters:**
+  
+    fname: str, file descriptor
+      Specifies the filename for the input file.
+      fname can also be used with a file descriptor instad of a filename.
+    select_state : None or list of int, optional
+      If not None, specifies the states to be read (0 corresponds to the ground 
+      state), else read all electronic states.
+    threshold : float, optional
+      Specifies a read threshold for the CI coefficients.
+  
+  **Returns:**
+  
+    ci : list of CIinfo class instances
+      See :ref:`Central Variables` for details.
+  '''
+  display('\nReading data of simplified TDA calculation from FermiONs++...')
+  return fermions_tdscf(fname,td_typ='stda',st_typ='singlet',select_state=select_state,threshold=threshold,**kwargs)
+
+#################################################################################
+#  CASCI -> todo...
+#################################################################################
